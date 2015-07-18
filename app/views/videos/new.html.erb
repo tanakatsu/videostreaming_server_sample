@@ -1,0 +1,131 @@
+<div class="container">
+  <h1>New Video</h1>
+
+  <%= render 'form' %>
+
+  <div>
+    <%= s3_uploader_form callback_url: upload_complete_videos_path,
+      key: @video.original_path,
+      key_starts_with: 'video/',
+      max_file_size: Video::MAX_UPLOADSIZE,
+      id: 's3-uploader' do %>
+      <%= hidden_field_tag "Content-Type", "" %>
+      <%= file_field_tag :file, multiple: false %>
+    <% end %>
+  </div>
+
+  <h6>
+    <small>
+    <%= number_to_human_size(Video::MAX_UPLOADSIZE) %>までのビデオがアップロードできます
+    </small>
+  </h6>
+
+  <br/>
+
+  <!-- dummy submit button -->
+  <div>
+    <input type="button" value="Create Video" id="dummy_submit" disabled="true" class="btn btn-primary" />
+  </div>
+
+  <br/>
+
+  <p id="status">ファイル変換を開始しています..</p>
+
+  <style>
+  .upload {
+    display:none;
+    border-top-style: none;
+    padding-top: 0px;
+    margin-top: 0px;
+    width: 360px;
+  }
+
+  .bar {
+    height: 20px !important;
+  }
+
+  .clearfix:after {
+    display:block;
+    clear:both;
+    height:0px;
+    visibility:hidden;
+    centent:".";
+  }
+
+  #status {
+    display: none;
+  }
+  </style>
+
+  <script id="template-upload" type="text/x-tmpl">
+    <div id="file-{%=o.unique_id%}" class="upload">
+      {%=o.name%}
+      <div class="progress"><div class="bar" style="width: 0%"></div></div>
+    </div>
+  </script>
+
+  <script type="text/javascript">
+  $(function() {
+    $("form input[name='commit']").hide();
+
+    $('#s3-uploader').S3Uploader({before_add: validateFile, 
+                                  remove_completed_progress_bar: false,
+                                  click_submit_target: $("#dummy_submit")});
+
+    $('#s3-uploader').bind('s3_uploads_start', function(e) {
+      $(".upload").show(); // プログレスバー表示
+    });
+
+    $('#s3-uploader').bind('s3_upload_complete', function(e, content) {
+      if ($("#file-" + content.unique_id).length > 0) {
+        $("#video_content_type").val(content.filetype);
+      }
+    });
+
+    $('#s3-uplaoder').bind('s3_upload_failed', function(e, content) {
+      if (content.filesize >= <%= Video::MAX_UPLOADSIZE %>) {
+        alert("upload failed: filesize is too large");
+      } else {
+        alert('upload failed');
+      }
+      $(".upload").hide();
+    });
+
+    $('#video_name').change(function() {
+      if ($('#video_name').val().length > 0) {
+        isParamsValid = true;
+      } else {
+        isParamsValid = false;
+      }
+      checkSubmitReady();
+    });
+
+    var isFileValid = false;
+    var isParamsValid = false;
+
+    function validateFile(file) {
+      var filename = file.name;
+      var ext = filename.split('.').pop();
+      if (ext.toLowerCase() !== 'mp4') {
+        alert('not mp4 file');
+        isFileValid = false;
+        checkSubmitReady();
+        return false;
+      }
+      isFileValid = true;
+      checkSubmitReady();
+      return true;
+    }
+
+    function checkSubmitReady() {
+      if (isFileValid === true && isParamsValid === true) {
+        $("#dummy_submit").prop('disabled', false);
+      } else {
+        $("#dummy_submit").prop('disabled', true);
+      }
+    }
+  });
+  </script>
+
+  <%= link_to 'Back', videos_path %>
+</div>

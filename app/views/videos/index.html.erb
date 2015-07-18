@@ -1,0 +1,58 @@
+<style>
+.table tbody>tr>td
+{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.thumb {
+  height: 60px;
+}
+</style>
+
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <h1>My Videos</h1>
+
+  <%# rails g kaminari:views bootstrap3 でビューテンプレート生成 %>
+  <%= paginate(@videos) %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @videos.each do |video| %>
+        <tr>
+          <td><%= video.name %></td>
+          <td>
+            <div class="thumb">
+            <%= image_tag(thumbnail_video_path(video), height: 60) if video.encoded? %>
+            </div>
+          </td>
+          <td class="col-md-3">
+            <%= link_to 'Show', video, class: %w(btn btn-primary) %>
+            <% if @admin %>
+            <%= link_to 'Edit', edit_video_path(video), class: %w(btn btn-primary) %>
+            <%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' }, class: %w(btn btn-danger)  %>
+            <% end %>
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div>
+    <%= link_to '+ New Video', new_video_path, class: %w(btn btn-primary)  %>
+  </div>
+</div>

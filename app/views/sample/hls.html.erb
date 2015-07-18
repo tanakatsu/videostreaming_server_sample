@@ -1,0 +1,14 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <h1>プライベートコンテンツ再生テスト(HLS)</h1>
+
+  <div>
+    <video id="video"
+           class="video-js vjs-default-skin"
+           controls preload="auto" width="640" height="264"
+           data-setup='{"example_option":true}'>
+      <source src="<%= hls_index_sample_index_path(format: 'm3u8') %>" type='application/x-mpegURL' />
+    </video>
+  </div>
+</div>

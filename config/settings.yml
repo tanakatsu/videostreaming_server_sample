@@ -1,0 +1,23 @@
+aws:
+  region: ap-northeast-1
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV.fetch('AWS_SECRET_ACCESS_KEY') %>
+
+s3:
+  bucket: <%= ENV.fetch('S3_BUCKET') %>
+
+transcoder:
+  pipeline_id: <%= ENV.fetch('TRANSCODER_PIPELINE_ID') %>
+
+cloudfront:
+  rtmp_domain: <%= ENV.fetch('CLOUDFRONT_RTMP_DOMAIN') %>
+  web_domain: <%= ENV.fetch('CLOUDFRONT_WEB_DOMAIN') %>
+  key_pair_id: <%= ENV.fetch('CLOUDFRONT_KEYPAIR_ID') %>
+
+basicauth:
+  guest:
+    username: <%= ENV.fetch('BASICAUTH_GUEST_USERNAME') %>
+    password: <%= ENV.fetch('BASICAUTH_GUEST_PASSWORD') %>
+  admin:
+    username: <%= ENV.fetch('BASICAUTH_ADMIN_USERNAME') %>
+    password: <%= ENV.fetch('BASICAUTH_ADMIN_PASSWORD') %>

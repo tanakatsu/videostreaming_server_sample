@@ -1,0 +1,14 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <h1>プライベートコンテンツ再生テスト(RTMP)</h1>
+
+  <div>
+    <video id="video"
+           class="video-js vjs-default-skin"
+           controls preload="auto" width="640" height="264"
+           data-setup='{"example_option":true}'>
+      <source src="<%= raw @rtmp_url %>" type='rtmp/mp4' />
+    </video>
+  </div>
+</div>

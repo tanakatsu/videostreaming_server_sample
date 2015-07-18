@@ -1,0 +1,67 @@
+<style>
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+div.container {
+  height: 100%;
+}
+
+div.player {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-justify-content: center;
+  -webkit-flex-justify-content: center;
+  justify-content: center;
+  -webkit-box-align-items: center;
+  -webkit-flex-align-items: center;
+  align-items: center;
+
+  height: 80%;
+}
+
+div.vjs-poster {
+  height: 100%;
+}
+
+</style>
+
+<div class="container">
+  <h1><%= @video.name %></h1>
+
+  <div class="player">
+    <video id="video"
+           class="video-js vjs-default-skin"
+           controls preload="auto" width="100%" height="100%"
+           <% if @video.encoded? %>
+            <% if @use_signed_cookie %>
+               poster="<%= @video.thumbnail_url %>"
+            <% else %>
+               poster="<%= thumbnail_video_path(@video) %>"
+            <% end %>
+           <% end %>
+           data-setup='{"example_option":true}'>
+      <% if @hls_player %>
+        <% if @use_signed_cookie %>
+          <source src="<%= raw @video.hls_url %>" type='application/x-mpegurl'>
+        <% else %>
+          <source src="<%= hls_playlist_video_path(@video) %>" type='application/x-mpegurl'>
+        <% end %>
+      <% else %>
+        <source src="<%= raw @video.rtmp_url %>" type='rtmp/mp4' />
+      <% end %> 
+    </video>
+  </div>
+
+  <div style="margin-bottom:10px;margin-top:10px;">
+    <%= link_to 'Back', videos_path, class: %w(btn btn-default) %>
+  </div>
+</div>

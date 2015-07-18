@@ -1,0 +1,40 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <h1>Download</h1>
+
+  <h3>Viewer Apps</h3>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Swift</td>
+        <td><%= link_to 'download code', file_download_index_path(name: 'viewer-swift.zip'), class: %w(btn btn-primary) %></td>
+      </tr>
+      <tr>
+        <td>Android</td>
+        <td><%= link_to 'download code', '', class: %w(btn btn-primary disabled) %> (future development)</td>
+      </tr>
+      <tr>
+        <td>ReactNative (iOS)</td>
+        <td><%= link_to 'download code', file_download_index_path(name: 'viewer-reactnative.zip'), class: %w(btn btn-primary) %></td>
+      </tr>
+      <tr>
+        <td>ReactNative (Android)</td>
+        <td><%= link_to 'download code', '', class: %w(btn btn-primary disabled) %> (now in development)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    TODO
+    <ul>
+      <li>paging
+      <li>authentication
+    </ul>
+  </div>
+
+  <div>
+    <%= link_to 'Back', index_path %>
+  </div>
+</div>

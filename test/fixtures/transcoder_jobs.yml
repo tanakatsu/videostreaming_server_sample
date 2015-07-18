@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  job_id: MyString
+  job_type: MyString
+  state: MyString
+  video_id: 1
+
+two:
+  job_id: MyString
+  job_type: MyString
+  state: MyString
+  video_id: 1

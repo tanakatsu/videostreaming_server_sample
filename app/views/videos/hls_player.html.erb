@@ -1,0 +1,67 @@
+<style>
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+<% if @use_flex %>
+.simple_hls_player {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-justify-content: center;
+  -webkit-flex-justify-content: center;
+  justify-content: center;
+  -webkit-box-align-items: center;
+  -webkit-flex-align-items: center;
+  align-items: center;
+  height: 100%;  
+}
+<% else %>
+.simple_hls_player {
+  text-align: center;
+  height: 100%;
+}
+<% end %>
+
+.simple_hls_player_content_landscape {
+  width: 100%;
+}
+
+.simple_hls_player_content_portrait {
+  height: 100%;
+}
+
+</style>
+
+<div class="simple_hls_player">
+  <% aspect_ratio_class = @aspect_ratio.nil? || @aspect_ratio >= 1 ? 'simple_hls_player_content_landscape' : 'simple_hls_player_content_portrait' %>
+  <video id="video" controls preload="auto" class="<%= aspect_ratio_class %>"
+     <% if @video.encoded? %>
+       poster="<%= @video.thumbnail_url %>"
+     <% end %>
+     >
+     <source src="<%= raw @video.hls_url %>" type='application/x-mpegurl'>
+  </video>
+</div>
+
+<% if @aspect_ratio.nil? %>
+<script>
+  $("#video").on('loadedmetadata', function() {
+    var width = $("#video").width();
+    var height = $("#video").height();
+
+    if (width < height) {
+      $("video").removeClass("simple_hls_player_content_landscape");
+      $("video").addClass("simple_hls_player_content_portrait");
+    }
+  });
+</script>
+<% end %>

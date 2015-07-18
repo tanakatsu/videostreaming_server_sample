@@ -1,0 +1,42 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <h1>Video Streaming Sample</h1>
+
+  <h3>What's this</h3>
+  <p>
+  </p>
+
+  <ul>
+    <li>upload videos to AWS S3 storage directly
+    <li>transcode videos using AWS elastic transcoder
+    <li>completion notification of trancoding through Amazon SNS
+    <li>private streaming (RTMP and HLS)
+    <li>signed cookie
+    <li>adaptive bitrate streaming
+  </ul>
+
+  <div>
+    TODO
+    <ul>
+      <li>AES-128 encryption
+    </ul>
+  </div>
+
+  <div>
+    <%= link_to 'Upload / View', videos_path, class: %w(btn btn-primary)  %>
+  </div>
+
+  <h3>Viewer Apps</h3>
+  <div>
+    <ul>
+      <li>Swift
+      <li>RectNative (iOS)
+    </ul>
+  </div>
+
+  <div>
+    <%= link_to 'Download', download_path, class: %w(btn btn-primary)  %>
+  </div>
+
+</div>
